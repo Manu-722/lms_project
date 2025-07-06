@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Enrollment
+from .models import Course, Enrollment, Lecture, Assignment
 from users.models import CustomUser
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -13,3 +13,25 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         model = Enrollment
         fields = ['id', 'student', 'course', 'enrolled_at']
         read_only_fields = ['student', 'enrolled_at']
+
+
+
+class LectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lecture
+        fields = '__all__'
+        read_only_fields = ['course', 'created_at']
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = '__all__'
+        read_only_fields = ['course', 'created_at']
+
+from .models import Submission
+
+class SubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = ['id', 'assignment', 'student', 'content', 'submitted_at']
+        read_only_fields = ['student', 'submitted_at']
