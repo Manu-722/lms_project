@@ -6,6 +6,10 @@ from users.models import CustomUser
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+from rest_framework import status
+from users.permissions import IsInstructor 
+
 
 
 
@@ -106,3 +110,33 @@ class SubmissionCreateView(generics.CreateAPIView):
             raise ValidationError("You have already submitted this assignment.")
 
         serializer.save(student=self.request.user, assignment=assignment)
+
+class GradeSubmissionView(generics.UpdateAPIView):
+    queryset = Submission.objects.all()
+    serializer_class = SubmissionSerializer
+    permission_classes = [IsInstructor]
+
+    def perform_update(self, serializer):
+        submission = self.get_object()
+        if submission.assignment.course.instructor != self.request.user:
+            raise PermissionDenied("You are not allowed to grade this submission.")
+        serializer.save()
+class MySubmissionsView(generics.ListAPIView):
+    serializer_class = SubmissionSerializer
+    permission_classes = [IsStudent]
+
+    def get_queryset(self):
+        return Submission.objects.filter(student=self.request.user)
+    
+class CourseSubmissionsView(generics.ListAPIView):
+    serializer_class = SubmissionSerializer
+    permission_classes = [IsInstructor]
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = Course.objects.get(id=course_id)
+
+        if course.instructor != self.request.user:
+            raise PermissionDenied("You are not the instructor for this course.")
+
+        return Submission.objects.filter(assignment__course=course)
