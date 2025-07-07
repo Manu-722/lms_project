@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6 text-blue-700">My Submissions</h2>
+
+{% if submissions %}
+  <div class="space-y-4">
+    {% for submission in submissions %}
+      <div class="bg-white border border-gray-200 rounded shadow-sm p-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-bold text-gray-800">{{ submission.assignment.title }}</h3>
+            <p class="text-sm text-gray-500">Submitted on {{ submission.timestamp|date:"M d, Y H:i" }}</p>
+          </div>
+          <span class="text-sm px-3 py-1 rounded-full 
+                       {% if submission.grade %}
+                         bg-green-100 text-green-700
+                       {% else %}
+                         bg-yellow-100 text-yellow-700
+                       {% endif %}">
+            {% if submission.grade %}
+              Grade: {{ submission.grade }}
+            {% else %}
+              Not graded yet
+            {% endif %}
+          </span>
+        </div>
+        {% if submission.feedback %}
+          <div class="mt-2 text-sm text-gray-700">
+            <strong>Feedback:</strong> {{ submission.feedback }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-gray-600">You haven't submitted any assignments yet.</p>
+{% endif %}
+{% endblock %}

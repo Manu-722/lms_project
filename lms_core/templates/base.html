@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <nav class="bg-white shadow p-4 flex justify-between items-center">
+        <div class="text-xl font-bold text-blue-600">My LMS</div>
+        <div class="space-x-4">
+            <a href="{% url 'home' %}" class="text-gray-700 hover:text-blue-600">Home</a>
+            {% comment %} <a href="{% url 'course-list' %}" class="text-gray-700 hover:text-blue-600">All Courses</a> {% endcomment %}
+            <a href="{% url 'my-courses' %}" class="text-gray-700 hover:text-blue-600">My Courses</a>
+            <a href="{% url 'inbox' %}" class="text-gray-700 hover:text-blue-600">Inbox</a>
+            <a href="{% url 'sent-messages' %}" class="text-gray-700 hover:text-blue-600">Sent</a>
+            <a href="{% url 'student-progress' %}" class="text-gray-700 hover:text-blue-600">Progress</a>
+            <a href="{% url 'my-submissions' %}" class="text-gray-700 hover:text-blue-600">Submissions</a>
+        </div>
+    </nav>
+    <main class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded shadow">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6 text-blue-700">My Progress</h2>
+
+{% if progress %}
+  <div class="space-y-6">
+    {% for course_id, data in progress.items %}
+      <div class="bg-white border border-gray-200 rounded shadow-sm p-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-2">{{ data.course_title }}</h3>
+
+        <div class="mb-2">
+          <p class="text-sm text-gray-600">Grades:</p>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            {% for grade in data.grades %}
+              <li>{{ grade }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="mt-2">
+          <p class="text-sm text-gray-600 mb-1">Average Grade:</p>
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div class="bg-blue-600 h-4 rounded-full" style="width: {{ data.average|floatformat:0 }}%;"></div>
+          </div>
+          <p class="text-sm text-gray-700 mt-1">{{ data.average|floatformat:2 }}%</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-gray-600">No graded submissions yet.</p>
+{% endif %}
+{% endblock %}
