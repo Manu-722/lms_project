@@ -19,14 +19,14 @@
           <li class="nav-item"><a class="nav-link" href="/courses/list/">Courses</a></li>
           <li class="nav-item"><a class="nav-link" href="/communication/chat/">Chat</a></li>
           <li class="nav-item"><a class="nav-link" href="/assignments/">Assignments</a></li>
-          {% comment %} <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li> {% endcomment %}
           <li class="nav-item">
-  <form method="post" action="/logout/" class="d-inline">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 0;">Logout</button>
-  </form>
-</li>
-
+            <form method="post" action="/logout/" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="nav-link btn btn-link text-white" style="text-decoration: none; padding: 0; border: none; background: none;">
+                Logout
+              </button>
+            </form>
+          </li>
         {% else %}
           <li class="nav-item"><a class="nav-link" href="/auth/">Login / Register</a></li>
         {% endif %}
