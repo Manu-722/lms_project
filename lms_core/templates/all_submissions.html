@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">All Student Submissions</h2>
+<ul class="list-group">
+  {% for submission in submissions %}
+    <li class="list-group-item">
+      <strong>{{ submission.student.username }}</strong> submitted <em>{{ submission.assignment.title }}</em> on {{ submission.submitted_at|date:"M d, Y H:i" }}
+    </li>
+  {% empty %}
+    <li class="list-group-item">No submissions yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -5,6 +5,8 @@ from .serializers import AssignmentSerializer, SubmissionSerializer
 from rest_framework.permissions import IsAuthenticated
 from .forms import SubmissionForm
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -45,3 +47,15 @@ def submit_assignment_view(request, assignment_id):
         'assignment': assignment,
         'form': form
     })
+@login_required
+def submit_assignment(request):
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.student = request.user
+            submission.save()
+            return redirect('assignment_dashboard')
+    else:
+        form = SubmissionForm()
+    return render(request, 'assignments/submit.html', {'form': form})

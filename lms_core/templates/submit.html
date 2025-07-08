@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4"> Submit Assignment</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="mb-3">
+    {{ form.assignment.label_tag }}
+    {{ form.assignment }}
+  </div>
+  <div class="mb-3">
+    {{ form.file.label_tag }}
+    {{ form.file }}
+  </div>
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{% endblock %}

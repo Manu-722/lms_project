@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from lms_core.views import dashboard_view
 from django.contrib.auth import views as auth_views
 from lms_core.views import auth_view, dashboard_view, profile_view
 from django.contrib.auth.views import LogoutView
+from .views import submit_assignment, my_submissions, all_submissions
 
 
 
@@ -37,6 +37,15 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     path('communication/', include('communication.urls')),
     path('assignments/', include('assignments.urls')),
+    # path('assignments/submit/', submit_assignment, name='submit_assignment'),
+    
+    path('assignments/submit/', submit_assignment, name='submit_assignment'),
+    path('assignments/my-submissions/', my_submissions, name='my_submissions'),
+    path('assignments/all-submissions/', all_submissions, name='all_submissions'),
+
+
+    
+
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(next_page='auth'), name='logout'),
 

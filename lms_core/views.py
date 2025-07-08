@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from .forms import EmailUpdateForm
+from .forms import EmailUpdateForm, SubmissionForm
 
 
 User = get_user_model()
@@ -46,6 +46,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .forms import EmailUpdateForm
 
+
 @login_required
 def profile_view(request):
     user = request.user
@@ -75,3 +76,29 @@ def profile_view(request):
         'email_form': email_form,
         'password_form': password_form
     })
+from assignments.models import Submission
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def my_submissions(request):
+    submissions = Submission.objects.filter(student=request.user)
+    return render(request, 'my_submissions.html', {'submissions': submissions})
+@login_required
+def all_submissions(request):
+    if request.user.role != 'instructor':
+        return redirect('dashboard')
+    submissions = Submission.objects.select_related('assignment', 'student')
+    return render(request, 'all_submissions.html', {'submissions': submissions})
+
+@login_required
+def submit_assignment(request):
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.student = request.user
+            submission.save()
+            return redirect('assignment_dashboard')  
+    else:
+        form = SubmissionForm()
+    return render(request, 'submit.html', {'form': form})
