@@ -19,6 +19,10 @@ from django.urls import path, include
 from lms_core.views import dashboard_view
 from django.contrib.auth import views as auth_views
 from lms_core.views import auth_view, dashboard_view
+from django.contrib.auth.views import LogoutView
+
+
+
 
 
 
@@ -32,7 +36,9 @@ urlpatterns = [
     path('communication/', include('communication.urls')),
     path('assignments/', include('assignments.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='auth'), name='logout'),
+
+    
 
 
 ]

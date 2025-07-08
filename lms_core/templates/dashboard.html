@@ -1,32 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="mb-4">Welcome, {{ request.user.username }}!</h2>
+<div class="text-center">
+  <h2 class="mb-3"> Welcome, {{ request.user.username }}!</h2>
+  <p class="lead">You are logged in as <strong>{{ role|title }}</strong>.</p>
+</div>
 
-{% if role == 'admin' %}
-  <div class="alert alert-info">You are logged in as <strong>Admin</strong>.</div>
-  <ul class="list-group">
-    <li class="list-group-item"><a href="/admin/">Admin Panel</a></li>
-    <li class="list-group-item"><a href="/users/">Manage Users</a></li>
-    <li class="list-group-item"><a href="/courses/list/">View All Courses</a></li>
-  </ul>
-
+{% if role == 'student' %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+      <div class="list-group shadow-sm">
+        <a href="/courses/list/" class="list-group-item list-group-item-action">
+           Browse Courses
+        </a>
+        <a href="/communication/chat/" class="list-group-item list-group-item-action">
+           Chat with Instructors
+        </a>
+        <a href="/assignments/" class="list-group-item list-group-item-action">
+           View Assignments
+        </a>
+      </div>
+    </div>
+  </div>
 {% elif role == 'instructor' %}
-  <div class="alert alert-warning">You are logged in as <strong>Instructor</strong>.</div>
-  <ul class="list-group">
-    <li class="list-group-item"><a href="/courses/list/">My Courses</a></li>
-    <li class="list-group-item"><a href="/communication/announcements/">Post Announcements</a></li>
-    <li class="list-group-item"><a href="/assignments/">Manage Assignments</a></li>
-  </ul>
-
-{% elif role == 'student' %}
-  <div class="alert alert-success">You are logged in as <strong>Student</strong>.</div>
-  <ul class="list-group">
-    <li class="list-group-item"><a href="/courses/list/">Browse Courses</a></li>
-    <li class="list-group-item"><a href="/communication/chat/">Chat with Instructors</a></li>
-    <li class="list-group-item"><a href="/assignments/">View Assignments</a></li>
-  </ul>
-
-{% else %}
-  <div class="alert alert-secondary">Unknown role.</div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+      <div class="list-group shadow-sm">
+        <a href="/courses/list/" class="list-group-item list-group-item-action">
+           Manage My Courses
+        </a>
+        <a href="/assignments/" class="list-group-item list-group-item-action">
+           Create & Grade Assignments
+        </a>
+        <a href="/communication/chat/" class="list-group-item list-group-item-action">
+           Chat with Students
+        </a>
+      </div>
+    </div>
+  </div>
+{% elif role == 'admin' %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+      <div class="list-group shadow-sm">
+        <a href="/admin/" class="list-group-item list-group-item-action">
+           Admin Panel
+        </a>
+        <a href="/users/" class="list-group-item list-group-item-action">
+           Manage Users
+        </a>
+      </div>
+    </div>
+  </div>
 {% endif %}
 {% endblock %}

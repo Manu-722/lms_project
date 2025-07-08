@@ -31,3 +31,8 @@ def auth_view(request):
             return redirect('dashboard')
 
     return render(request, 'auth.html')
+from django.contrib.auth.views import LogoutView
+
+class CustomLogoutView(LogoutView):
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
