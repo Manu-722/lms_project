@@ -1,23 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-2xl font-semibold mb-4">Available Courses</h2>
-<ul class="space-y-4">
+<h2 class="mb-4">Available Courses</h2>
+<div class="row">
   {% for course in courses %}
-    <li class="border p-4 rounded shadow-sm bg-gray-50">
-      <div class="flex justify-between items-center">
-        <div>
-          <h3 class="text-lg font-bold text-blue-700">{{ course.title }}</h3>
-          <p class="text-sm text-gray-600">{{ course.description }}</p>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ course.title }}</h5>
+          <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+          <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">View Details</a>
         </div>
-        <form method="post" action="{% url 'enroll-course-form' %}">
-          {% csrf_token %}
-          <input type="hidden" name="course_id" value="{{ course.id }}">
-          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Enroll
-          </button>
-        </form>
       </div>
-    </li>
+    </div>
   {% endfor %}
-</ul>
+</div>
 {% endblock %}

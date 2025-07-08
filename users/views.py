@@ -1,24 +1,9 @@
-from django.shortcuts import render
-from rest_framework import generics
-from .models import CustomUser
-from .serializers import UserRegistrationSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from django.db import IntegrityError
-from rest_framework import status
+from rest_framework import viewsets
+from .models import User
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAdminUser
 
-
-# Create your views here.
-class UserRegistrationView(generics.CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserRegistrationSerializer
-
-    def create(self, request, *args, **kwargs):
-        try:
-            return super().create(request, *args, **kwargs)
-        except IntegrityError:
-            return Response(
-                {"error": "A user with that username already exists."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]

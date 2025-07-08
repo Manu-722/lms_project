@@ -1,17 +1,13 @@
-from django.urls import path
-from .views import (
-    SendMessageView,
-    InboxView,
-    SentMessagesView,
-    MarkMessageAsReadView,
-    compose_message_view
-)
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import AnnouncementViewSet, MessageViewSet, announcements_view, chat_view
+
+router = DefaultRouter()
+router.register(r'announcements', AnnouncementViewSet)
+router.register(r'messages', MessageViewSet)
 
 urlpatterns = [
-    path('send/', SendMessageView.as_view(), name='send-message'),
-    path('inbox/', InboxView.as_view(), name='inbox'),
-    path('sent/', SentMessagesView.as_view(), name='sent-messages'),
-    path('<int:pk>/mark-read/', MarkMessageAsReadView.as_view(), name='mark-message-read'),
-    path('compose/', compose_message_view, name='compose-message'),
-
+    path('', include(router.urls)),
+    path('announcements/', announcements_view, name='announcements'),
+    path('chat/', chat_view, name='chat'),
 ]

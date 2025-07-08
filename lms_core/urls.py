@@ -1,6 +1,6 @@
 """
 URL configuration for lms_core project.
-
+ 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
 Examples:
@@ -16,21 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from lms_core.views import dashboard_view
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', dashboard_view, name='dashboard'),
     path('admin/', admin.site.urls),
-    path('api/users/', include('users.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/courses/', include('courses.urls')),
-    path('api/messages/', include('communication.urls')),
+    path('users/', include('users.urls')),
+    path('courses/', include('courses.urls')),
+    path('communication/', include('communication.urls')),
+    path('assignments/', include('assignments.urls')),
+     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+
+
 ]
+
 
 from django.conf import settings
 from django.conf.urls.static import static

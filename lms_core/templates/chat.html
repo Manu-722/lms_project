@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>💬 Chat</h2>
+<form method="post" class="mb-3">
+  {% csrf_token %}
+  <div class="input-group">
+    <select name="recipient" class="form-select">
+      {% for user in users %}
+        <option value="{{ user.id }}">{{ user.username }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" name="content" class="form-control" placeholder="Type your message...">
+    <button class="btn btn-primary">Send</button>
+  </div>
+</form>
+
+<div class="border p-3" style="max-height: 400px; overflow-y: scroll;">
+  {% for msg in messages %}
+    <div class="mb-2">
+      <strong>{{ msg.sender.username }}</strong> → <em>{{ msg.recipient.username }}</em>: {{ msg.content }}
+      <br><small class="text-muted">{{ msg.timestamp }}</small>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

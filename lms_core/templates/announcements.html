@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Announcements</h2>
+<ul class="list-group">
+  {% for a in announcements %}
+    <li class="list-group-item">
+      <strong>{{ a.title }}</strong><br>
+      {{ a.message }}<br>
+      <small class="text-muted">By {{ a.author }} on {{ a.created_at }}</small>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

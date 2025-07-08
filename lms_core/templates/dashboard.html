@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Welcome, {{ request.user.username }}!</h2>
+
+{% if role == 'admin' %}
+  <div class="alert alert-info">You are logged in as <strong>Admin</strong>.</div>
+  <ul class="list-group">
+    <li class="list-group-item"><a href="/admin/">Admin Panel</a></li>
+    <li class="list-group-item"><a href="/users/">Manage Users</a></li>
+    <li class="list-group-item"><a href="/courses/list/">View All Courses</a></li>
+  </ul>
+
+{% elif role == 'instructor' %}
+  <div class="alert alert-warning">You are logged in as <strong>Instructor</strong>.</div>
+  <ul class="list-group">
+    <li class="list-group-item"><a href="/courses/list/">My Courses</a></li>
+    <li class="list-group-item"><a href="/communication/announcements/">Post Announcements</a></li>
+    <li class="list-group-item"><a href="/assignments/">Manage Assignments</a></li>
+  </ul>
+
+{% elif role == 'student' %}
+  <div class="alert alert-success">You are logged in as <strong>Student</strong>.</div>
+  <ul class="list-group">
+    <li class="list-group-item"><a href="/courses/list/">Browse Courses</a></li>
+    <li class="list-group-item"><a href="/communication/chat/">Chat with Instructors</a></li>
+    <li class="list-group-item"><a href="/assignments/">View Assignments</a></li>
+  </ul>
+
+{% else %}
+  <div class="alert alert-secondary">Unknown role.</div>
+{% endif %}
+{% endblock %}

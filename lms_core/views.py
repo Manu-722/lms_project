@@ -1,6 +1,8 @@
-from django.http import JsonResponse
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-def home(request):
-     return render(request, 'home.html') 
-    # return JsonResponse({"message": "Welcome to the LMS"})
+@login_required
+def dashboard_view(request):
+    role = request.user.role
+    context = {'role': role}
+    return render(request, 'dashboard.html', context)
