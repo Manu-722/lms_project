@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from lms_core.views import dashboard_view
 from django.contrib.auth import views as auth_views
-from lms_core.views import auth_view, dashboard_view
+from lms_core.views import auth_view, dashboard_view, profile_view
 from django.contrib.auth.views import LogoutView
 
 
@@ -29,6 +29,8 @@ from django.contrib.auth.views import LogoutView
 urlpatterns = [
     path('', dashboard_view, name='dashboard'),
     path('auth/', auth_view, name='auth'),
+    path('profile/', profile_view, name='profile'),
+
 
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),

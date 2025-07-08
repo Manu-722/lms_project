@@ -2,6 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import EmailUpdateForm
+
 
 User = get_user_model()
 
@@ -36,3 +40,38 @@ from django.contrib.auth.views import LogoutView
 class CustomLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import EmailUpdateForm
+
+@login_required
+def profile_view(request):
+    user = request.user
+    email_form = EmailUpdateForm(instance=user)
+    password_form = PasswordChangeForm(user=user)
+
+    if request.method == 'POST':
+        if 'update_email' in request.POST:
+            email_form = EmailUpdateForm(request.POST, instance=user)
+            if email_form.is_valid():
+                email_form.save()
+                messages.success(request, 'Email updated successfully.')
+                return redirect('profile')
+
+        elif 'change_password' in request.POST:
+            password_form = PasswordChangeForm(user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Password changed successfully.')
+                return redirect('profile')
+            else:
+                messages.error(request, 'Please correct the errors below.')
+
+    return render(request, 'profile.html', {
+        'user': user,
+        'email_form': email_form,
+        'password_form': password_form
+    })
