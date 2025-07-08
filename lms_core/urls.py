@@ -18,16 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from lms_core.views import dashboard_view
 from django.contrib.auth import views as auth_views
+from lms_core.views import auth_view, dashboard_view
+
 
 
 urlpatterns = [
     path('', dashboard_view, name='dashboard'),
+    path('auth/', auth_view, name='auth'),
+
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('courses/', include('courses.urls')),
     path('communication/', include('communication.urls')),
     path('assignments/', include('assignments.urls')),
-     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 
 
