@@ -42,6 +42,7 @@ urlpatterns = [
     path('assignments/submit/', submit_assignment, name='submit_assignment'),
     path('assignments/my-submissions/', my_submissions, name='my_submissions'),
     path('assignments/all-submissions/', all_submissions, name='all_submissions'),
+    
 
 
     
