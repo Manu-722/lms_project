@@ -38,6 +38,8 @@ urlpatterns = [
     path('communication/', include('communication.urls')),
     path('assignments/', include('assignments.urls')),
     # path('assignments/submit/', submit_assignment, name='submit_assignment'),
+    path('api/', include('assignments.urls')),
+
     
     path('assignments/submit/', submit_assignment, name='submit_assignment'),
     path('assignments/my-submissions/', my_submissions, name='my_submissions'),
